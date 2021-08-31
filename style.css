@@ -7,7 +7,10 @@
 body {
   display: flex;
   justify-content: center;
+
+  min-height: 100vh;
   background-color: #7159c1;
+  overflow: hidden;
 }
 
 body,
@@ -16,6 +19,10 @@ input {
   font-family: "Rubik", sans-serif;
   font-weight: 400;
   color: #fff;
+}
+
+body main {
+  flex: 1;
 }
 
 body main h1 {
@@ -27,9 +34,33 @@ body main h1 {
 
 main form {
   background-color: #fff;
+  width: 325px;
   padding: 28px 24px;
   margin: auto;
   border-radius: 4px;
+
+  overflow: hidden;
+  animation: show-up 0.75s;
+}
+
+form.swipe-down {
+  animation: swipe-down 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+form.negative-shake {
+  animation: negative-shake 0.25s linear 2, show-up paused;
+}
+
+form label,
+form input,
+form button {
+  animation: swipe-right 0.65s ease-out;
+}
+
+form label,
+form input {
+  display: block;
+  animation-fill-mode: backwards;
 }
 
 form label {
@@ -37,25 +68,36 @@ form label {
 }
 
 form input {
-  display: block;
-
   font-size: 0.9rem;
   color: #7159c1;
 
-  height: 32px;
+  height: 36px;
   width: 100%;
   padding: 0 4px;
   margin: 0.5rem 0 1.5rem;
 
-  border: 1px solid #ccddef;
+  border: 1px solid #c1d7ee;
   border-radius: 2px;
 }
 
+form label:nth-child(1),
+form input:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+form label:nth-child(3),
+form input:nth-child(4) {
+  animation-delay: 0.1s;
+}
+
 form button {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   background-color: #7159c1;
-  padding: 0.75rem 3.5rem;
+  font-size: 1rem;
+  padding: 0.7rem 3.25rem;
   margin: auto;
 
   border: none;
@@ -64,5 +106,78 @@ form button {
 }
 
 form button:hover {
-  filter: brightness(0.95);
+  filter: brightness(0.9);
+}
+
+main ul li {
+  position: absolute;
+  display: block;
+
+  width: 40px;
+  height: 40px;
+  bottom: -40px;
+
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  animation: swipe-up infinite alternate;
+}
+
+@keyframes show-up {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes swipe-up {
+  from {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  75% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-900px) rotate(540deg);
+  }
+}
+
+@keyframes swipe-right {
+  from {
+    opacity: 0;
+    transform: translateX(-20%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes swipe-down {
+  0% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-25%) scale(1.1);
+  }
+  100% {
+    transform: translateY(100vh) scale(0.6);
+  }
+}
+
+@keyframes negative-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5%);
+  }
+  50% {
+    transform: translateX(5%);
+  }
 }
